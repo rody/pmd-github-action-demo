@@ -14,6 +14,7 @@ jobs:
           rulesets: 'rulesets/apex/quickstart.xml'
           reportfile: 'pmd-report.json'
           format: 'json'
+          failOnViolation: 'false'
       - name: PMD annotations
         uses: rody/pmd-annotations-github-action@main
         id: pmd-annotations
