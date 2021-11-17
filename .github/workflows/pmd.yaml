@@ -6,17 +6,25 @@ jobs:
     name: Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: PMD
         uses: rody/pmd-github-action@main
-        id: pmd
         with:
           rulesets: 'rulesets/apex/quickstart.xml'
           reportfile: 'pmd-report.json'
           format: 'json'
           failOnViolation: 'false'
-      - name: PMD annotations
+      - name: Publish PMD report
+        uses: actions/upload-artifact@v2
+        with:
+          name: PMD Report
+          path: 'pmd-report.json'
+          if-no-files-found: ignore
+      - name: Create PMD annotations
         uses: rody/pmd-annotations-github-action@main
         id: pmd-annotations
         with:
           reportfile: 'pmd-report.json'
+          min-error-priority: 4
+          fail-on-error: true
