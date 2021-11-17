@@ -4,6 +4,9 @@ public with sharing class Foo {
     }
 
     public void BadlyNamedMethod() {
+    }
+
+    global void globalMethod() {
 
     }
 }
