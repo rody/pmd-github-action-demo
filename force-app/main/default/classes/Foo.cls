@@ -1,0 +1,5 @@
+public with sharing class Foo {
+    private String field_name;
+    public Foo() {
+    }
+}
