@@ -1,0 +1,17 @@
+name: Analyse Source Code
+on: [push]
+
+jobs:
+  analysis:
+    name: Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: PMD
+        uses: rody/pmd-github-action@master
+        id: pmd
+        with:
+          rulesets: 'rulesets/apex/quickstart.xml'
+          failOnViolation: false
+          reportfile: 'pmd-report.json'
+          format: 'json'
