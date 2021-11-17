@@ -20,3 +20,5 @@ jobs:
         id: pmd-annotations
         with:
           reportfile: 'pmd-report.json'
+          min-error-priority: 4
+          fail-on-error: true
