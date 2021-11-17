@@ -12,6 +12,3 @@ jobs:
         id: pmd
         with:
           rulesets: 'rulesets/apex/quickstart.xml'
-          failOnViolation: false
-          reportfile: 'pmd-report.json'
-          format: 'json'
