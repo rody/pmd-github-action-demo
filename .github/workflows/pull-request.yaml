@@ -8,6 +8,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: PMD
         uses: rody/pmd-github-action@main
         with:
@@ -19,5 +22,6 @@ jobs:
         uses: rody/pmd-review-github-action@wip
         with:
           reportfile: 'pmd-report.json'
+          pr-number: ${{ github.event.pull_request.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
