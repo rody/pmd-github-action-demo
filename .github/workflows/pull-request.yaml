@@ -1,9 +1,9 @@
-name: Analyse Source Code
+name: Pull Request Review
 on: [pull_request]
 
 jobs:
   analysis:
-    name: Analysis
+    name: Review
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,3 +19,5 @@ jobs:
         uses: rody/pmd-review-github-action@wip
         with:
           reportfile: 'pmd-report.json'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
