@@ -22,6 +22,6 @@ jobs:
         uses: rody/pmd-review-github-action@wip
         with:
           reportfile: 'pmd-report.json'
-          pr-number: ${{ github.event.pull_request.number }}
+          pr-number: ${{ github.event.pull_request.number || github.event.issue.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
