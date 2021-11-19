@@ -7,6 +7,8 @@ public with sharing class Foo {
     }
 
     global void globalMethod() {
+    }
 
+    global void AnotherBadlyNamed() {
     }
 }
