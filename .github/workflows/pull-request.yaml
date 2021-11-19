@@ -1,0 +1,21 @@
+name: Analyse Source Code
+on: [pull_request]
+
+jobs:
+  analysis:
+    name: Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: PMD
+        uses: rody/pmd-github-action@main
+        with:
+          rulesets: 'rulesets/apex/quickstart.xml'
+          reportfile: 'pmd-report.json'
+          format: 'json'
+          failOnViolation: 'false'
+      - name: Create Review from PMD report
+        uses: rody/pmd-review-github-action@wip
+        with:
+          reportfile: 'pmd-report.json'
