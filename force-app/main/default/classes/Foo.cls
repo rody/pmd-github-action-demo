@@ -13,4 +13,5 @@ public with sharing class Foo {
     }
 
     private String Plop;
+
 }
