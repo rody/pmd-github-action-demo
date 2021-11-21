@@ -11,4 +11,6 @@ public with sharing class Foo {
 
     global void AnotherBadlyNamed() {
     }
+
+    private String Plop;
 }
