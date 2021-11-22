@@ -8,4 +8,10 @@ public with sharing class Foo {
 
     global void globalMethod() {
     }
+
+    global void AnotherBadlyNamed() {
+    }
+
+    private String Plop;
+
 }
