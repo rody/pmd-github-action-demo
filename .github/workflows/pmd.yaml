@@ -1,5 +1,8 @@
 name: Analyse Source Code
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   analysis:

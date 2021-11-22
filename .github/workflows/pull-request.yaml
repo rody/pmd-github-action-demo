@@ -1,5 +1,7 @@
 name: Pull Request Review
-on: [pull_request]
+on:
+  pull_request:
+    [opened, synchronize]
 
 jobs:
   analysis:
