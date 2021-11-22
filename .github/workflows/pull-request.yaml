@@ -1,7 +1,7 @@
 name: Pull Request Review
 on:
   pull_request:
-    [opened, synchronize]
+    types: [opened, synchronize]
 
 jobs:
   analysis:
@@ -21,7 +21,7 @@ jobs:
           format: 'json'
           failOnViolation: 'false'
       - name: Create Review from PMD report
-        uses: rody/pmd-review-github-action@wip
+        uses: rody/pmd-review-github-action@main
         with:
           reportfile: 'pmd-report.json'
           pr-number: ${{ github.event.number }}
