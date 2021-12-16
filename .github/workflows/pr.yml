@@ -103,7 +103,7 @@ jobs:
                       const filePath = location.physicalLocation.artifactLocation.uri;
                       const f = path.relative(process.cwd(), filePath);
                       const message = `${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`;
-                      console.log(`::error title=${toolName},path=${f},line=${location.physicalLocation.region.startLine},endLine=${location.physicalLocation.region.startLine}::Error: ${message}${os.EOL}`)
+                      console.log(`::error title=${toolName},file=${f},line=${location.physicalLocation.region.startLine},endLine=${location.physicalLocation.region.startLine}::Error: ${message}${os.EOL}`)
 
                       // core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
                       //   title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
