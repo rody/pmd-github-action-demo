@@ -46,9 +46,10 @@ jobs:
 
         - name: Publish annotations
           uses: actions/github-script@v5
+          env:
+            SARIF_REPORTS: pmd-report.json,eslint-report.json
           with:
             github-token: '1234'
-            sarif-reports: pmd-report.json,eslint-report.json
             script: |
               const parse = require("parse-diff");
               const fs = require("fs");
@@ -79,8 +80,8 @@ jobs:
 
               console.log(JSON.stringify(changedLines));
 
-              const reportsInput = core.getInput('sarif-reports', { required: true });
-              const reportFiles = reportsInput.split(',');
+              const { SARIF_REPORTS } = process.env
+              const reportFiles = SARIF_REPORTS.split(',');
 
               for (reportFile of reportFiles) {
                 var report;
