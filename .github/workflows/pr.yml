@@ -55,6 +55,7 @@ jobs:
               const fs = require("fs");
               const path = require("path");
               const process = require("process");
+              const os = require("os");
 
               const diff_url = context.payload.pull_request.diff_url;
               const diff = await github.request(diff_url);
@@ -101,12 +102,14 @@ jobs:
                     for (location of result.locations) {
                       const filePath = location.physicalLocation.artifactLocation.uri;
                       const f = path.relative(process.cwd(), filePath);
-                      core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
-                        title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
-                        file: f,
-                        startLine: location.physicalLocation.region.startLine,
-                        endLine: location.physicalLocation.region.startLine,
-                      });
+                      console.log(`::error title=${toolName},path=${f},line=${location.physicalLocation.region.startLine},endLine=${location.physicalLocation.region.startLine}::Error: ${message}${os.EOL}`)
+
+                      // core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
+                      //   title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
+                      //   file: f,
+                      //   startLine: location.physicalLocation.region.startLine,
+                      //   endLine: location.physicalLocation.region.startLine,
+                      // });
                     }
 
                   }
