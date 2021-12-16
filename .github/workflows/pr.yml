@@ -128,7 +128,7 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     name: toolName,
-                    head_sha: ????,
+                    head_sha: (context.pull_request && context.pull_request.head.sha) || context.sha,
                     status: 'completed',
                     conclusion: 'neutral',
                     output: {
