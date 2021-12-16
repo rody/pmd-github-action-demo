@@ -83,6 +83,7 @@ jobs:
               const reports = process.env['SARIF_REPORTS'];
               const reportFiles = reports.split(',');
 
+
               for (const reportFile of reportFiles) {
                 var report;
                 try {
@@ -96,6 +97,7 @@ jobs:
 
                 for (const run of sarif.runs) {
                   const toolName = run.tool.driver.name;
+                  const violations = [];
 
                   for (const result of run.results) {
 
@@ -103,7 +105,15 @@ jobs:
                       const filePath = location.physicalLocation.artifactLocation.uri;
                       const f = path.relative(process.cwd(), filePath);
                       const message = `${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`;
-                      console.log(`::error title=${toolName},file=${f},line=${location.physicalLocation.region.startLine},endLine=${location.physicalLocation.region.startLine}::Error: ${message}${os.EOL}`)
+
+                      violations.push({
+                        title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
+                        file: f,
+                        startLine: location.physicalLocation.region.startLine,
+                        endLine: location.physicalLocation.region.endLine,
+                        message: result.message.text,
+                        ruleId: run.tool.driver.rules[result.ruleIndex].id,
+                      });
 
                       // core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
                       //   title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
@@ -112,7 +122,34 @@ jobs:
                       //   endLine: location.physicalLocation.region.startLine,
                       // });
                     }
-
                   }
+
+                  const checkRun = {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: toolName,
+                    head_sha: ????,
+                    status: 'completed',
+                    conclusion: 'neutral',
+                    output: {
+                      title: `${toolName} check completed`,
+                      summary: '????????',
+                      annotations: [],
+                    },
+                  }
+
+                  for (v of violations) {
+                      output.annotations.push({
+                        path: v.file,
+                        start_line: v.startLine,
+                        end_line: v.startLine,
+                        annotation_level: 'warning',
+                        message: v.message,
+                        title: `${toolName} - ${v.ruleId}`,
+                      });
+                  }
+
+                  console.log(JSON.stringify(checkRun));
+
                 }
               }
