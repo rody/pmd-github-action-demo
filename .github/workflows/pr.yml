@@ -64,8 +64,8 @@ jobs:
 
               const changedLines = {};
 
-              // for (const diffFile of diffFiles) {
-              //   for (chunk of diffFile.chunks) {
+              for (const diffFile of diffFiles) {
+                for (chunk of diffFile.chunks) {
               //     for (change of chunk.changes) {
               //       if (change.type == 'del') {
               //         continue;
@@ -76,8 +76,8 @@ jobs:
               //       lines.push(lineNumber);
               //       changedLines[diffFile.to] = lines;
               //     }
-              //   }
-              // }
+                }
+              }
 
               // console.log(JSON.stringify(changedLines));
 
