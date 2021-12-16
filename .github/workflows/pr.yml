@@ -49,7 +49,7 @@ jobs:
           env:
             SARIF_REPORTS: pmd-report.json,eslint-report.json
           with:
-            github-token: '1234'
+            debug: true
             script: |
               const parse = require("parse-diff");
               const fs = require("fs");
@@ -80,7 +80,7 @@ jobs:
 
               console.log(JSON.stringify(changedLines));
 
-              const { SARIF_REPORTS } = process.env
+              const { SARIF_REPORTS } = process.env;
               const reportFiles = SARIF_REPORTS.split(',');
 
               for (reportFile of reportFiles) {
