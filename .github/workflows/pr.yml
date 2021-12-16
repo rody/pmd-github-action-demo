@@ -58,24 +58,22 @@ jobs:
 
               const diff_url = context.payload.pull_request.diff_url;
               const diff = await github.request(diff_url);
-              console.log(diff);
               const diffFiles = parse(diff.data);
-              console.log(diffFiles);
 
               const changedLines = {};
 
               for (const diffFile of diffFiles) {
                 for (chunk of diffFile.chunks) {
-              //     for (change of chunk.changes) {
-              //       if (change.type == 'del') {
-              //         continue;
-              //       }
-              //       const lineNumber = change.ln1 || change.ln;
+                  for (change of chunk.changes) {
+                    if (change.type == 'del') {
+                      continue;
+                    }
+                    const lineNumber = change.ln1 || change.ln;
 
-              //       const lines = changedLines[diffFile.to] || [];
-              //       lines.push(lineNumber);
-              //       changedLines[diffFile.to] = lines;
-              //     }
+                    const lines = changedLines[diffFile.to] || [];
+                    lines.push(lineNumber);
+                    changedLines[diffFile.to] = lines;
+                  }
                 }
               }
 
