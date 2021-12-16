@@ -77,10 +77,10 @@ jobs:
                 }
               }
 
-              // console.log(JSON.stringify(changedLines));
+              console.log(JSON.stringify(changedLines));
 
-              // const { SARIF_REPORTS } = process.env;
-              // const reportFiles = SARIF_REPORTS.split(',');
+              const reports = process.env['SARIF_REPORTS'];
+              const reportFiles = reports.split(',');
 
               // for (const reportFile of reportFiles) {
               //   var report;
