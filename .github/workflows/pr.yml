@@ -82,15 +82,16 @@ jobs:
               const reports = process.env['SARIF_REPORTS'];
               const reportFiles = reports.split(',');
 
-              // for (const reportFile of reportFiles) {
-              //   var report;
-              //   try {
-              //     report = fs.readFileSync(reportFile, { encoding: 'utf8', flag: 'r' });
-              //   } catch (err) {
-              //     console.log(`could not open file "${reportFile}", ${err}`);
-              //     continue;
-              //   }
-              //   const sarif = JSON.parse(report);
+              for (const reportFile of reportFiles) {
+                var report;
+                try {
+                  report = fs.readFileSync(reportFile, { encoding: 'utf8', flag: 'r' });
+                } catch (err) {
+                  console.log(`could not open file "${reportFile}", ${err}`);
+                  continue;
+                }
+
+                const sarif = JSON.parse(report);
 
               //   for (const run of sarif.runs) {
               //     const toolName = run.tool.driver.name;
@@ -109,4 +110,4 @@ jobs:
 
               //     }
               //   }
-              // }
+              }
