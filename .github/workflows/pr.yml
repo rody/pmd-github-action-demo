@@ -79,36 +79,36 @@ jobs:
               //   }
               // }
 
-              console.log(JSON.stringify(changedLines));
+              // console.log(JSON.stringify(changedLines));
 
-              const { SARIF_REPORTS } = process.env;
-              const reportFiles = SARIF_REPORTS.split(',');
+              // const { SARIF_REPORTS } = process.env;
+              // const reportFiles = SARIF_REPORTS.split(',');
 
-              for (const reportFile of reportFiles) {
-                var report;
-                try {
-                  report = fs.readFileSync(reportFile, { encoding: 'utf8', flag: 'r' });
-                } catch (err) {
-                  console.log(`could not open file "${reportFile}", ${err}`);
-                  continue;
-                }
-                const sarif = JSON.parse(report);
+              // for (const reportFile of reportFiles) {
+              //   var report;
+              //   try {
+              //     report = fs.readFileSync(reportFile, { encoding: 'utf8', flag: 'r' });
+              //   } catch (err) {
+              //     console.log(`could not open file "${reportFile}", ${err}`);
+              //     continue;
+              //   }
+              //   const sarif = JSON.parse(report);
 
-                for (const run of sarif.runs) {
-                  const toolName = run.tool.driver.name;
+              //   for (const run of sarif.runs) {
+              //     const toolName = run.tool.driver.name;
 
-                  for (const result of run.results) {
+              //     for (const result of run.results) {
 
-                    for (location of result.locations) {
-                      const filePath = location.physicalLocation.artifactLocation.uri;
-                      const f = path.relative(process.cwd(), filePath);
-                      core.warning(`${result.message?.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties?.priority}\n${f}`, {
-                        title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
-                        file: f,
-                        startLine: location.physicalLocation?.region?.startLine,
-                      });
-                    }
+              //       for (location of result.locations) {
+              //         const filePath = location.physicalLocation.artifactLocation.uri;
+              //         const f = path.relative(process.cwd(), filePath);
+              //         core.warning(`${result.message?.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties?.priority}\n${f}`, {
+              //           title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
+              //           file: f,
+              //           startLine: location.physicalLocation?.region?.startLine,
+              //         });
+              //       }
 
-                  }
-                }
-              }
+              //     }
+              //   }
+              // }
