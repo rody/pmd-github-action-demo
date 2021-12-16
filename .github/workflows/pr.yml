@@ -93,21 +93,21 @@ jobs:
 
                 const sarif = JSON.parse(report);
 
-              //   for (const run of sarif.runs) {
-              //     const toolName = run.tool.driver.name;
+                for (const run of sarif.runs) {
+                  const toolName = run.tool.driver.name;
 
-              //     for (const result of run.results) {
+                  for (const result of run.results) {
 
-              //       for (location of result.locations) {
-              //         const filePath = location.physicalLocation.artifactLocation.uri;
-              //         const f = path.relative(process.cwd(), filePath);
-              //         core.warning(`${result.message?.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties?.priority}\n${f}`, {
-              //           title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
-              //           file: f,
-              //           startLine: location.physicalLocation?.region?.startLine,
-              //         });
-              //       }
+                    for (location of result.locations) {
+                      const filePath = location.physicalLocation.artifactLocation.uri;
+                      const f = path.relative(process.cwd(), filePath);
+                      core.warning(`${result.message?.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties?.priority}\n${f}`, {
+                        title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
+                        file: f,
+                        startLine: location.physicalLocation?.region?.startLine,
+                      });
+                    }
 
-              //     }
-              //   }
+                  }
+                }
               }
