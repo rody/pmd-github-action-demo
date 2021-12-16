@@ -101,10 +101,10 @@ jobs:
                     for (location of result.locations) {
                       const filePath = location.physicalLocation.artifactLocation.uri;
                       const f = path.relative(process.cwd(), filePath);
-                      core.warning(`${result.message?.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties?.priority}\n${f}`, {
+                      core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
                         title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
                         file: f,
-                        startLine: location.physicalLocation?.region?.startLine,
+                        startLine: location.physicalLocation.region.startLine,
                       });
                     }
 
