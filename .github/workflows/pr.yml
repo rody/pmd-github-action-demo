@@ -60,43 +60,44 @@ jobs:
               const diff = await github.request(diff_url)
               console.log(diff);
               const diffFiles = parse(diff);
+              console.log(diffFiles);
 
               const changedLines = {};
 
-              for (diffFile of diffFiles) {
-                for (chunk of diffFile.chunks) {
-                  for (change of chunk.changes) {
-                    if (change.type = 'del') {
-                      continue;
-                    }
-                    const lineNumber = change.ln1 || change.ln;
+              // for (const diffFile of diffFiles) {
+              //   for (chunk of diffFile.chunks) {
+              //     for (change of chunk.changes) {
+              //       if (change.type == 'del') {
+              //         continue;
+              //       }
+              //       const lineNumber = change.ln1 || change.ln;
 
-                    const lines = changedLines[diffFile.to] || [];
-                    lines.push(lineNumber);
-                    changedLines[diffFile.to] = lines;
-                  }
-                }
-              }
+              //       const lines = changedLines[diffFile.to] || [];
+              //       lines.push(lineNumber);
+              //       changedLines[diffFile.to] = lines;
+              //     }
+              //   }
+              // }
 
               console.log(JSON.stringify(changedLines));
 
               const { SARIF_REPORTS } = process.env;
               const reportFiles = SARIF_REPORTS.split(',');
 
-              for (reportFile of reportFiles) {
+              for (const reportFile of reportFiles) {
                 var report;
                 try {
-                  report = fs.readFileSync(reportFile, {encoding:'utf8', flag:'r'});
+                  report = fs.readFileSync(reportFile, { encoding: 'utf8', flag: 'r' });
                 } catch (err) {
                   console.log(`could not open file "${reportFile}", ${err}`);
                   continue;
                 }
                 const sarif = JSON.parse(report);
 
-                for (run of sarif.runs) {
+                for (const run of sarif.runs) {
                   const toolName = run.tool.driver.name;
 
-                  for (result of run.results) {
+                  for (const result of run.results) {
 
                     for (location of result.locations) {
                       const filePath = location.physicalLocation.artifactLocation.uri;
