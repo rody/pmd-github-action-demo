@@ -70,7 +70,6 @@ jobs:
                       continue;
                     }
                     const lineNumber = change.ln1 || change.ln;
-
                     const lines = changedLines[diffFile.to] || [];
                     lines.push(lineNumber);
                     changedLines[diffFile.to] = lines;
@@ -82,7 +81,6 @@ jobs:
 
               const reports = process.env['SARIF_REPORTS'];
               const reportFiles = reports.split(',');
-
 
               for (const reportFile of reportFiles) {
                 var report;
@@ -106,6 +104,8 @@ jobs:
                       const f = path.relative(process.cwd(), filePath);
                       const message = `${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`;
 
+                      const isChanged = (changedFiles[f] || []).includes(location.physicalLocation.region.startLine);
+
                       violations.push({
                         title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
                         file: f,
@@ -113,14 +113,8 @@ jobs:
                         endLine: location.physicalLocation.region.endLine,
                         message: result.message.text,
                         ruleId: run.tool.driver.rules[result.ruleIndex].id,
+                        isChanged: isChanged,
                       });
-
-                      // core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
-                      //   title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
-                      //   file: f,
-                      //   startLine: location.physicalLocation.region.startLine,
-                      //   endLine: location.physicalLocation.region.startLine,
-                      // });
                     }
                   }
 
@@ -144,7 +138,7 @@ jobs:
                         start_line: v.startLine,
                         end_line: v.startLine,
                         annotation_level: 'warning',
-                        message: v.message,
+                        message: `${v.message} (${v.isChanged})`,
                         title: `${toolName} - ${v.ruleId}`,
                       });
                   }
