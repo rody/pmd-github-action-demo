@@ -103,9 +103,9 @@ jobs:
                       const f = path.relative(process.cwd(), filePath);
                       core.warning(`${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`, {
                         title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
-                        path: f,
-                        start_line: location.physicalLocation.region.startLine,
-                        end_line: location.physicalLocation.region.startLine,
+                        file: f,
+                        startLine: location.physicalLocation.region.startLine,
+                        endLine: location.physicalLocation.region.startLine,
                       });
                     }
 
