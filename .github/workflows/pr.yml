@@ -128,7 +128,7 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     name: toolName,
-                    head_sha: (context.pull_request && context.pull_request.head.sha) || context.sha,
+                    head_sha: (context.payload.pull_request && context.payload.pull_request.head.sha) || context.sha,
                     status: 'completed',
                     conclusion: 'neutral',
                     output: {
@@ -139,7 +139,7 @@ jobs:
                   }
 
                   for (v of violations) {
-                      output.annotations.push({
+                      checkRun.output.annotations.push({
                         path: v.file,
                         start_line: v.startLine,
                         end_line: v.startLine,
