@@ -59,8 +59,8 @@ jobs:
               const diff_url = context.payload.pull_request.diff_url;
               const diff = await github.request(diff_url);
               console.log(diff);
-              // const diffFiles = parse(diff);
-              // console.log(diffFiles);
+              const diffFiles = parse(diff.data);
+              console.log(diffFiles);
 
               const changedLines = {};
 
