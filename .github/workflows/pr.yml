@@ -150,6 +150,8 @@ jobs:
                   }
 
                   console.log(JSON.stringify(checkRun));
+                  const resp = await github.rest.checks.create(checkRun);
+                  console.log(JSON.stringify(resp));
 
                 }
               }
