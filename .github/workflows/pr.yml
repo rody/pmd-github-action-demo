@@ -104,7 +104,7 @@ jobs:
                       const f = path.relative(process.cwd(), filePath);
                       const message = `${result.message.text}\nPriority: ${run.tool.driver.rules[result.ruleIndex].properties.priority}\n${f}`;
 
-                      const isChanged = (changedFiles[f] || []).includes(location.physicalLocation.region.startLine);
+                      const isChanged = (changedLines[f] || []).includes(location.physicalLocation.region.startLine);
 
                       violations.push({
                         title: `[${toolName}] ${run.tool.driver.rules[result.ruleIndex].id}`,
