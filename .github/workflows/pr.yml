@@ -56,6 +56,7 @@ jobs:
               const fs = require("fs");
               const path = require("path");
               const process = require("process");
+              const parseDiff = require("parse-diff");
 
               /**
               * @typedef ChangedLines
@@ -79,7 +80,7 @@ jobs:
               * Returns and object containing the changed
               * lines for each file.
               *
-              * @param {Object} parsedDiff - a diff object as returned by `parse-diff`
+              * @param {parseDiff.File[]} parsedDiff - a diff object as returned by `parse-diff`
               * @return {ChangedLines} The changed files
               */
               function getChangedLines(parsedDiff) {
@@ -144,7 +145,7 @@ jobs:
                       violations.push({
                         toolName: run.tool.driver.name,
                         rule: run.tool.driver.rules[result.ruleIndex],
-                        ruleId: run.tool.driver.rules[resultIndex].id,
+                        ruleId: run.tool.driver.rules[result.ruleIndex].id,
                         path: f,
                         startLine: location.physicalLocation.region.startLine,
                         endLine: location.physicalLocation.region.endLine,
@@ -161,7 +162,7 @@ jobs:
               * @param {Object} context
               * @param {Violation[]} violations
               */
-              function createCheckRuns(context, violations) {
+              function createCheckRun(context, violations) {
                 const annotations = [];
                 let errorCount = 0;
 
@@ -221,7 +222,7 @@ jobs:
                 violations = violations.concat(getViolations(sarif, changedLines));
               }
 
-              const checkRun = createCheckRun(violations);
+              const checkRun = createCheckRun(context, violations);
               console.log(checkRun);
 
               const resp = await github.rest.checks.create(checkRun);
