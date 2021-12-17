@@ -42,9 +42,10 @@ jobs:
           uses: actions/setup-node@v2
           with:
             node-version: '16'
-            # cache: 'npm'
-        - run: npm install parse-diff
+            cache: 'npm'
 
+        - name: Prepare Publish annotations
+          run: npm install parse-diff
         - name: Publish annotations
           uses: actions/github-script@v5
           env:
@@ -73,6 +74,7 @@ jobs:
               * @property {number} endLine - the end line number
               * @property {string} message - the violation message
               * @property {boolean} wasChanged - true if the line was changed in this diff
+              * @property {"warning"|"error"|"note"|"none"} level - the level of the result (default to 'error')
               */
 
               /**
@@ -135,7 +137,6 @@ jobs:
                 const violations = [];
                 for (const run of sarif.runs) {
                   for (const result of run.results) {
-
                     for (location of result.locations) {
                       const filePath = location.physicalLocation.artifactLocation.uri;
                       const f = path.relative(process.cwd(), filePath);
@@ -144,12 +145,13 @@ jobs:
                       violations.push({
                         toolName: run.tool.driver.name,
                         rule: run.tool.driver.rules[result.ruleIndex],
-                        ruleId: run.tool.driver.rules[result.ruleIndex].id,
+                        ruleId: result.ruleId,
                         path: f,
                         startLine: location.physicalLocation.region.startLine,
                         endLine: location.physicalLocation.region.endLine,
                         message: result.message.text,
                         wasChanged: wasChanged,
+                        level: result.level || 'error',
                       });
                     }
                   }
@@ -164,10 +166,28 @@ jobs:
               function createCheckRun(context, violations) {
                 const annotations = [];
                 let errorCount = 0;
+                let warningCount = 0;
+                let noticeCount = 0;
 
                 for (const v of violations) {
                   if (!v.wasChanged) {
                     continue;
+                  }
+
+                  // map SARIF result level to github check level
+                  let severity;
+                  switch (v.level) {
+                    case 'error':
+                      severity = 'failure';
+                      errorCount++;
+                      break;
+                    case 'warning':
+                      severity = 'warning';
+                      warningCount++;
+                      break;
+                    default:
+                      severity = 'notice';
+                      noticeCount++;
                   }
 
                   errorCount += 1;
@@ -175,7 +195,7 @@ jobs:
                     path: v.path,
                     start_line: v.startLine,
                     end_line: v.startLine,
-                    annotation_level: 'warning',
+                    annotation_level: severity,
                     message: v.message,
                     title: `${v.toolName} - ${v.ruleId}`,
                   });
@@ -189,8 +209,8 @@ jobs:
                   status: 'completed',
                   conclusion: errorCount > 0 ? 'failure' : 'success',
                   output: {
-                    title: errorCount > 0 ? `${errorCount} errors.` : 'No error found.',
-                    summary: '?????',
+                    title: `${errorCount} errors, ${warningCount} warnings, ${noticeCount} infos.`,
+                    summary: `${errorCount} errors, ${warningCount} warnings, ${noticeCount} infos.`,
                     annotations: annotations,
                   },
                 };
