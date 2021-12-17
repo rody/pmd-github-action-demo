@@ -1,0 +1,38 @@
+on:
+  workflow_call:
+    inputs:
+      sarif-reports:
+        required: true
+        type: string
+        description: a comma separated list of sarif report files
+
+jobs:
+  publish-annotations:
+    name: Publish Sarif Annotations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Cache Script Dependencies
+        id: cache-script-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+          key: ${{ runner.os }}-parse-diff-0.9.0
+      - name: Prepare Publish annotations
+        if: steps.cache-script-dependencies.outputs.cache-hit != 'true'
+        run: npm install parse-diff@0.9.0
+      - name: Publish annotations
+        uses: actions/github-script@v5
+        env:
+          SARIF_REPORTS: ${inputs.sarif-reports}
+        with:
+          debug: true
+          script: |
+            const publish = require('../../index.js');
+            publish(context, github);
