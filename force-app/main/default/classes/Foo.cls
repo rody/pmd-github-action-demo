@@ -12,7 +12,12 @@ public with sharing class Foo {
     global void AnotherBadlyNamed() {
     }
 
+    global void YetAnotherBadlyNamed() {
+    }
+
     private String BadFieldName;
     private String BadFieldName2;
+    private String BadFieldName3;
+    private String BadFieldName4;
 
 }

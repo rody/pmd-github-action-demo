@@ -13,17 +13,18 @@ jobs:
         with:
           fetch-depth: 2
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: PMD
-        uses: rody/pmd-github-action@main
-        with:
-          rulesets: 'rulesets/apex/quickstart.xml'
-          reportfile: 'pmd-report.json'
-          format: 'json'
-          failOnViolation: 'false'
-      - name: Create Review from PMD report
-        uses: rody/pmd-review-github-action@main
-        with:
-          reportfile: 'pmd-report.json'
-          pr-number: ${{ github.event.number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: PMD
+      #   uses: rody/pmd-github-action@main
+      #   with:
+      #     rulesets: 'rulesets/apex/quickstart.xml'
+      #     reportfile: 'pmd-report.json'
+      #     format: 'json'
+      #     failOnViolation: 'false'
+      # - name: Create Review from PMD report
+      #   uses: rody/pmd-review-github-action@main
+      #   with:
+      #     reportfile: 'pmd-report.json'
+      #     pr-number: ${{ github.event.number }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
