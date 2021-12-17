@@ -198,7 +198,6 @@ jobs:
                       noticeCount++;
                   }
 
-                  errorCount += 1;
                   annotations.push({
                     path: v.path,
                     start_line: v.startLine,
