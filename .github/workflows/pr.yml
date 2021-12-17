@@ -4,6 +4,10 @@ on:
     types: [opened, synchronize]
 
 jobs:
+    say-hello:
+      - name: greet
+        uses: .github/actions/annotations
+
     check-ci:
       runs-on: ubuntu-latest
       steps:
