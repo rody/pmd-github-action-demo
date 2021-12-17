@@ -204,7 +204,7 @@ jobs:
                 return;
               }
 
-              const parsedDiff = retrieveDiff(github, context);
+              const parsedDiff = await retrieveDiff(github, context);
               const changedLines = getChangedLines(parsedDiff);
               let violations = [];
 
