@@ -43,7 +43,16 @@ jobs:
           with:
             node-version: '16'
 
+        - name: Cache Script Dependencies
+          id: cache-script-dependencies
+          uses: actions/cache@v2
+          with:
+            path: |
+              node_modules
+            key: ${{ runner.os }}-node_modules
+
         - name: Prepare Publish annotations
+          if: steps.cache-script-dependencies.outputs.cache-hit != 'true'
           run: npm install parse-diff
         - name: Publish annotations
           uses: actions/github-script@v5
