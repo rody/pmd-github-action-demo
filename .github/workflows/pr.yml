@@ -56,7 +56,6 @@ jobs:
               const fs = require("fs");
               const path = require("path");
               const process = require("process");
-              const parseDiff = require("parse-diff");
 
               /**
               * @typedef ChangedLines
