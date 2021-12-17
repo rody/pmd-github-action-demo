@@ -194,6 +194,8 @@ jobs:
                     annotations: annotations,
                   },
                 };
+
+                return checkRun;
               }
 
               /*---------- main ----------------*/
